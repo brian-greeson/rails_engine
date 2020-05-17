@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Item, type: :model do
   describe 'releationships' do
-    it {should belong_to :merchant}
+    it {should belong_to :merchant }
   end
 
   describe 'validations' do
