@@ -6,20 +6,21 @@ describe 'Items API' do
     item1 = merchant1.items.create(attributes_for(:item))
 
     get '/api/v1/items'
-    # expect(response).to be_successful
-    # items = JSON.parse(response.body)
+    expect(response).to be_successful
+    items = JSON.parse(response.body)
 
-    # expect(items[:data][0][:name] = merchant1.items.first.name)
-    # expect(items[:data][0][:description] = merchant1.items.first.description)
-    # expect(items[:data][0][:unit_price] = merchant1.items.first.unit_price)
-    # expect(items[:data][0][:merchant_id] = merchant1.items.first.merchant_id)
 
-    # merchant1.items.create(attributes_for(:item)
-    # merchant1.items.create(attributes_for(:item)
+    expect(items["data"][0]["name"]).to eq(merchant1.items.first.name)
+    expect(items["data"][0]["description"]).to eq(merchant1.items.first.description)
+    expect(items["data"][0]["unit_price"]).to eq(merchant1.items.first.unit_price.to_s)
+    expect(items["data"][0]["merchant_id"]).to eq(merchant1.items.first.merchant_id)
 
-    # get '/api/v1/items'
-    # items = JSON.parse(response.body)
+    merchant1.items.create(attributes_for(:item))
+    merchant1.items.create(attributes_for(:item))
 
-    # expect(items[:data].length).to eq(3)
+    get '/api/v1/items'
+    items = JSON.parse(response.body)
+
+    expect(items["data"].length).to eq(3)
   end  
 end
