@@ -74,6 +74,27 @@ describe 'Items API' do
     expect(response).to be_successful
     item = JSON.parse(response.body)
     expect(item["data"]).to eq(nil)
+  end
+
+  it 'Can Create a new record' do
+    merchant1 = create(:merchant)
+    item_to_make = build(:item, merchant_id: merchant1.id)
+
+    expect(Item.all).to be_empty
+
+    post '/api/v1/items', params: {
+      name: item_to_make.name,
+      description: item_to_make.description,
+      unit_price: item_to_make.unit_price,
+      merchant_id: item_to_make.merchant_id
+    }
+    expect(response).to be_successful
+
+    expect(Item.first.name).to eq(item_to_make.name)
+    expect(Item.first.description).to eq(item_to_make.description)
+    expect(Item.first.unit_price.to_f).to eq(item_to_make.unit_price)
+    expect(Item.first.merchant_id).to eq(item_to_make.merchant_id)
 
   end
+  
 end
