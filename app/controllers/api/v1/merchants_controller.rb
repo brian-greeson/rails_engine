@@ -11,6 +11,16 @@ class Api::V1::MerchantsController < Api::V1::BaseController
     render json: {data: merchant_details( Merchant.find(merchant_params[:id]))}
   end
 
+  def destroy
+    begin
+      merchant = Merchant.find(merchant_params[:id]).destroy
+    rescue ActiveRecord::RecordNotFound
+      render json: {data: nil}
+    else
+      render json: {data: merchant_details(merchant)}
+    end
+  end
+
   private
 
   def merchant_params

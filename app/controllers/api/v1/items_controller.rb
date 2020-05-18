@@ -14,8 +14,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
 
   def destroy
     begin
-      item = Item.find(item_params[:id])
-      item.destroy 
+      item = Item.find(item_params[:id]).destroy
     rescue ActiveRecord::RecordNotFound
       render json: {data: nil}
     else
