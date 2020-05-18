@@ -47,4 +47,28 @@ describe 'Items API' do
     expect(item["data"]["attributes"]["unit_price"]).to eq(item1.unit_price.to_f)
     expect(item["data"]["attributes"]["merchant_id"]).to eq(item1.merchant_id)
   end
+
+  it 'Can Delete a record' do
+    merchant1 = create(:merchant)
+    item1 = merchant1.items.create(attributes_for(:item))
+
+    delete "/api/v1/items/#{item1.id}"
+    expect(response).to be_successful
+    item = JSON.parse(response.body)
+    merchant1.reload
+
+    expect(item["data"]["type"]).to eq("item")
+    expect(item["data"]["id"]).to eq(item1.id.to_s)
+    expect(item["data"]["attributes"]["name"]).to eq(item1.name)
+    expect(item["data"]["attributes"]["description"]).to eq(item1.description)
+    expect(item["data"]["attributes"]["unit_price"]).to eq(item1.unit_price.to_f)
+    expect(item["data"]["attributes"]["merchant_id"]).to eq(item1.merchant_id)
+    expect(merchant1.items).to be_empty
+
+    delete "/api/v1/items/#{Faker::Number.number(digits: 3)}"
+    expect(response).to be_successful
+    item = JSON.parse(response.body)
+    expect(item["data"]).to eq(nil)
+
+  end
 end
