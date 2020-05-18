@@ -1,14 +1,14 @@
 class Api::V1::MerchantsController < Api::V1::BaseController
   def index   
-    response = {data: []}
-    Merchant.all.each do |merchant|
-      response[:data] << merchant_details(merchant)
-    end
-    render json: response
+    render json: MerchantSerializer.new(Merchant.all)
   end
 
   def show
-    render json: {data: merchant_details( Merchant.find(merchant_params[:id]))}
+    begin
+      render json: MerchantSerializer.new(Merchant.find(merchant_params[:id]))
+    rescue ActiveRecord::RecordNotFound
+      render json: {data: nil}
+    end
   end
 
   def destroy
@@ -17,7 +17,7 @@ class Api::V1::MerchantsController < Api::V1::BaseController
     rescue ActiveRecord::RecordNotFound
       render json: {data: nil}
     else
-      render json: {data: merchant_details(merchant)}
+      render json: MerchantSerializer.new(merchant)
     end
   end
 
@@ -25,13 +25,5 @@ class Api::V1::MerchantsController < Api::V1::BaseController
 
   def merchant_params
     params.permit(:id)
-  end
-
-  def merchant_details(merchant)
-    {
-        type: "merchant",
-        id: merchant.id.to_s,
-        attributes: {name: merchant.name}
-      }
   end
 end
