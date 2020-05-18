@@ -89,7 +89,7 @@ describe 'Items API' do
       merchant_id: item_to_make.merchant_id
     }
     expect(response).to be_successful
-
+    
     expect(Item.first.name).to eq(item_to_make.name)
     expect(Item.first.description).to eq(item_to_make.description)
     expect(Item.first.unit_price.to_f).to eq(item_to_make.unit_price)

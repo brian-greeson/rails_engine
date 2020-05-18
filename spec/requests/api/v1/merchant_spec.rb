@@ -67,4 +67,32 @@ describe 'Merchant API' do
     expect(merchant["data"]).to eq(nil)
   end
 
+  it 'Can Create a new merchant' do
+    merchant_to_make = build(:merchant)
+
+    expect(Merchant.all).to be_empty
+
+    post '/api/v1/merchants', params: {
+      name: merchant_to_make.name,
+    }
+
+    expect(response).to be_successful
+    expect(Merchant.first.name).to eq(merchant_to_make.name)
+  end
+
+  it 'Can Fail to Create a new record' do
+  
+
+    expect(Item.all).to be_empty
+    
+    post '/api/v1/merchants', params: {
+      not_valid_attribute: 6
+    }
+    merchant = JSON.parse(response.body)
+
+    expect(response).to be_successful
+    expect(Merchant.all).to be_empty
+    expect(merchant["data"]).to eq(nil)
+  end
+
 end

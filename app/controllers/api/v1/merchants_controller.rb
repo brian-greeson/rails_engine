@@ -10,6 +10,14 @@ class Api::V1::MerchantsController < Api::V1::BaseController
       render json: {data: nil}
     end
   end
+  
+  def create
+    begin
+      render json: MerchantSerializer.new(Merchant.create!(merchant_params))
+    rescue ActiveRecord::RecordInvalid
+      render json: {data: nil}
+    end
+  end
 
   def destroy
     begin
@@ -24,6 +32,6 @@ class Api::V1::MerchantsController < Api::V1::BaseController
   private
 
   def merchant_params
-    params.permit(:id)
+    params.permit(:id, :name)
   end
 end
