@@ -21,11 +21,11 @@ class Api::V1::ItemsController < Api::V1::BaseController
   def item_details(item)
     {
       type: "item",
-      id: item.id,
+      id: item.id.to_s,
       attributes: {
         name: item.name,
         description: item.description,
-        unit_price: item.unit_price,
+        unit_price: item.unit_price.to_f,
         merchant_id: item.merchant_id
       }
     }
