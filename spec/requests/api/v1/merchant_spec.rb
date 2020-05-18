@@ -24,9 +24,15 @@ describe 'Merchant API' do
     merchants = JSON.parse(response.body)
 
     expect(merchants["data"].length).to eq(3)
-  end  
+  end
 
  it 'Can find a single merchant' do
+    get "/api/v1/merchants/#{Faker::Number.number(digits: 3)}"
+    expect(response).to be_successful
+    merchant = JSON.parse(response.body)
+    expect(merchant["data"]).to eq(nil) 
+
+
     merchant1 = create(:merchant)
     item1 = merchant1.items.create(attributes_for(:item))
     merchant1.items.create(attributes_for(:item))

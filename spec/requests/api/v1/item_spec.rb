@@ -31,6 +31,11 @@ describe 'Items API' do
   end 
 
   it 'Can find a single record' do
+    get "/api/v1/items/#{Faker::Number.number(digits: 3)}"
+    expect(response).to be_successful
+    item = JSON.parse(response.body)
+    expect(item["data"]).to eq(nil)
+
     merchant1 = create(:merchant)
     item1 = merchant1.items.create(attributes_for(:item))
     merchant1.items.create(attributes_for(:item))
