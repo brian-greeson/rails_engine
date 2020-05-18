@@ -10,6 +10,14 @@ class Api::V1::ItemsController < Api::V1::BaseController
       render json: {data: nil}
     end
   end
+  
+  def create
+    begin
+      render json: ItemSerializer.new(Item.create!(item_params))
+    rescue ActiveRecord::RecordInvalid
+      render json: {data: nil}
+    end
+  end
 
   def destroy
     begin
@@ -24,6 +32,6 @@ class Api::V1::ItemsController < Api::V1::BaseController
   private
 
   def item_params
-    params.permit(:id)
+    params.permit(:id, :name, :unit_price, :description, :merchant_id)
   end
 end
