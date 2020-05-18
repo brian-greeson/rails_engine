@@ -15,8 +15,6 @@ namespace :db do
       if t != "schema_migrations" && t != "ar_internal_metadata"
         puts "Destroying records in #{t} table "
         t.singularize.camelize.constantize.destroy_all
-        puts "Reseting PK on #{t} table"
-        ActiveRecord::Base.connection.reset_pk_sequence!(t)
       end
     end
 
@@ -71,6 +69,12 @@ namespace :db do
       print_and_flush("#{(ln / row_count * 100).to_i}%")
     end
     print_and_flush("100% \n")
-  
+
+    ActiveRecord::Base.connection.tables.each do |t|
+      if t != "schema_migrations" && t != "ar_internal_metadata"
+        puts "Reseting PK on #{t} table"
+        ActiveRecord::Base.connection.reset_pk_sequence!(t)
+      end
+    end
   end
 end
