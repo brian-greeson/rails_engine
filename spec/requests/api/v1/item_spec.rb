@@ -15,10 +15,10 @@ describe 'Items API' do
     items = JSON.parse(response.body)
 
     expect(items["data"][0]["type"]).to eq("item")
-    expect(items["data"][0]["id"]).to eq(merchant1.items.first.id)
+    expect(items["data"][0]["id"]).to eq(merchant1.items.first.id.to_s)
     expect(items["data"][0]["attributes"]["name"]).to eq(merchant1.items.first.name)
     expect(items["data"][0]["attributes"]["description"]).to eq(merchant1.items.first.description)
-    expect(items["data"][0]["attributes"]["unit_price"]).to eq(merchant1.items.first.unit_price.to_s)
+    expect(items["data"][0]["attributes"]["unit_price"]).to eq(merchant1.items.first.unit_price.to_f)
     expect(items["data"][0]["attributes"]["merchant_id"]).to eq(merchant1.items.first.merchant_id)
 
     merchant1.items.create(attributes_for(:item))
@@ -41,10 +41,10 @@ describe 'Items API' do
     item = JSON.parse(response.body)
 
     expect(item["data"]["type"]).to eq("item")
-    expect(item["data"]["id"]).to eq(item1.id)
+    expect(item["data"]["id"]).to eq(item1.id.to_s)
     expect(item["data"]["attributes"]["name"]).to eq(item1.name)
     expect(item["data"]["attributes"]["description"]).to eq(item1.description)
-    expect(item["data"]["attributes"]["unit_price"]).to eq(item1.unit_price.to_s)
+    expect(item["data"]["attributes"]["unit_price"]).to eq(item1.unit_price.to_f)
     expect(item["data"]["attributes"]["merchant_id"]).to eq(item1.merchant_id)
   end
 end
