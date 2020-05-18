@@ -9,11 +9,12 @@ describe 'Items API' do
     expect(response).to be_successful
     items = JSON.parse(response.body)
 
-
-    expect(items["data"][0]["name"]).to eq(merchant1.items.first.name)
-    expect(items["data"][0]["description"]).to eq(merchant1.items.first.description)
-    expect(items["data"][0]["unit_price"]).to eq(merchant1.items.first.unit_price.to_s)
-    expect(items["data"][0]["merchant_id"]).to eq(merchant1.items.first.merchant_id)
+    expect(items["data"][0]["type"]).to eq("item")
+    expect(items["data"][0]["id"]).to eq(merchant1.items.first.id)
+    expect(items["data"][0]["attributes"]["name"]).to eq(merchant1.items.first.name)
+    expect(items["data"][0]["attributes"]["description"]).to eq(merchant1.items.first.description)
+    expect(items["data"][0]["attributes"]["unit_price"]).to eq(merchant1.items.first.unit_price.to_s)
+    expect(items["data"][0]["attributes"]["merchant_id"]).to eq(merchant1.items.first.merchant_id)
 
     merchant1.items.create(attributes_for(:item))
     merchant1.items.create(attributes_for(:item))
