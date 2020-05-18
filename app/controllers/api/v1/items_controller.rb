@@ -12,6 +12,17 @@ class Api::V1::ItemsController < Api::V1::BaseController
     render json: {data: item_details(Item.find(item_params[:id]))}
   end
 
+  def destroy
+    begin
+      item = Item.find(item_params[:id])
+      item.destroy 
+    rescue ActiveRecord::RecordNotFound
+      render json: {data: nil}
+    else
+      render json: {data: item_details(item)}
+    end
+  end
+
   private
 
   def item_params
