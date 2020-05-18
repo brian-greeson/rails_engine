@@ -3,8 +3,8 @@ class Api::V1::MerchantsController < Api::V1::BaseController
     response = {data: []}
     Merchant.all.each do |merchant|
       data = {
-        id: merchant.id,
         type: "merchant",
+        id: merchant.id,
         attributes: {name: merchant.name}
       }
       response[:data] << data
