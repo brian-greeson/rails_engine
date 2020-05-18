@@ -40,7 +40,7 @@ namespace :db do
     row_count = `wc -l < #{CSV_PATH}items.csv`.to_f 
     CSV.foreach("#{CSV_PATH}items.csv", headers: true).with_index do |row, ln|
       row = row.to_h
-      row["unit_price"] = row["unit_price"].to_f / 10
+      row["unit_price"] = row["unit_price"].to_f / 100
       Item.create!(row)
       print_and_flush("#{(ln / row_count * 100).to_i}%")
     end
@@ -58,7 +58,7 @@ namespace :db do
     row_count = `wc -l < #{CSV_PATH}invoice_items.csv`.to_f 
     CSV.foreach("#{CSV_PATH}invoice_items.csv", headers: true).with_index do |row, ln|
       row = row.to_h
-      row["unit_price"] = row["unit_price"].to_f / 10
+      row["unit_price"] = row["unit_price"].to_f / 100
       InvoiceItem.create!(row)
       print_and_flush("#{(ln / row_count * 100).to_i}%")
     end
