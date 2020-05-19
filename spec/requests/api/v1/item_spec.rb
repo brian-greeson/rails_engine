@@ -92,7 +92,7 @@ describe 'Items API' do
     
     expect(Item.first.name).to eq(item_to_make.name)
     expect(Item.first.description).to eq(item_to_make.description)
-    expect(Item.first.unit_price.to_f).to eq(item_to_make.unit_price)
+    expect(Item.first.unit_price.to_f).to eq(item_to_make.unit_price.to_f)
     expect(Item.first.merchant_id).to eq(item_to_make.merchant_id)
   end
 

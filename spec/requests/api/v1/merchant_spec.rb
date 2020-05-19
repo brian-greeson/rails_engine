@@ -107,4 +107,28 @@ describe 'Merchant API' do
     expect(Merchant.first.name).to eq(merchant2.name)
   end
 
+  it 'Can list merchant items' do
+    merchant1 = create(:merchant)
+    item1 = merchant1.items.create(attributes_for(:item))
+
+    get "/api/v1/merchants/#{merchant1.id}/items"
+    expect(response).to be_successful
+    items = JSON.parse(response.body)
+
+    expect(items["data"][0]["type"]).to eq("item")
+    expect(items["data"][0]["id"]).to eq(item1.id.to_s)
+    expect(items["data"][0]["attributes"]["name"]).to eq(item1.name)
+    expect(items["data"][0]["attributes"]["description"]).to eq(item1.description)
+    expect(items["data"][0]["attributes"]["unit_price"]).to eq(item1.unit_price.to_f)
+    expect(items["data"][0]["attributes"]["merchant_id"]).to eq(item1.merchant_id)
+
+    merchant1.items.create(attributes_for(:item))
+    merchant1.items.create(attributes_for(:item))
+
+    get "/api/v1/merchants/#{merchant1.id}/items"
+    items = JSON.parse(response.body)
+
+    expect(items["data"].length).to eq(3)
+  end
+
 end
