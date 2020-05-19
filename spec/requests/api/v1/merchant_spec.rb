@@ -125,7 +125,7 @@ describe 'Merchant API' do
     merchant1.items.create(attributes_for(:item))
     merchant1.items.create(attributes_for(:item))
 
-    get "/api/v1/merchants/#{merchan1.id}/items"
+    get "/api/v1/merchants/#{merchant1.id}/items"
     items = JSON.parse(response.body)
 
     expect(items["data"].length).to eq(3)
