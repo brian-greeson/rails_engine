@@ -2,6 +2,7 @@ require 'csv'
 require 'pry'
 
 CSV_PATH = "#{Rails.root}/lib/assets/"
+
 namespace :db do
   task import_csv: :environment do
     def print_and_flush(content)
