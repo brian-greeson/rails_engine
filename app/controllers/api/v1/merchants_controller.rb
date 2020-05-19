@@ -19,6 +19,14 @@ class Api::V1::MerchantsController < Api::V1::BaseController
     end
   end
 
+  def update
+    begin
+      render json: MerchantSerializer.new(Merchant.update(params[:id], merchant_params))
+    rescue ActiveRecord::RecordInvalid
+      render json: {data: nil}
+    end
+  end
+
   def destroy
     begin
       merchant = Merchant.find(merchant_params[:id]).destroy

@@ -32,11 +32,9 @@ describe 'Merchant API' do
     merchant = JSON.parse(response.body)
     expect(merchant["data"]).to eq(nil) 
 
-
     merchant1 = create(:merchant)
     item1 = merchant1.items.create(attributes_for(:item))
     merchant1.items.create(attributes_for(:item))
-
 
     get "/api/v1/merchants/#{merchant1.id}"
     expect(response).to be_successful
@@ -51,7 +49,6 @@ describe 'Merchant API' do
     merchant1 = create(:merchant)
     item1 = merchant1.items.create(attributes_for(:item))
     merchant1.items.create(attributes_for(:item))
-
 
     delete "/api/v1/merchants/#{merchant1.id}"
     expect(response).to be_successful
@@ -81,8 +78,6 @@ describe 'Merchant API' do
   end
 
   it 'Can Fail to Create a new record' do
-  
-
     expect(Item.all).to be_empty
     
     post '/api/v1/merchants', params: {
@@ -93,6 +88,23 @@ describe 'Merchant API' do
     expect(response).to be_successful
     expect(Merchant.all).to be_empty
     expect(merchant["data"]).to eq(nil)
+  end
+
+  it 'Can update an existing record' do
+    merchant1 = create(:merchant)
+    merchant2 = build(:merchant)
+
+    put "/api/v1/merchants/#{merchant1.id}", params: {
+      name: merchant2.name
+    }
+    expect(response).to be_successful
+    merchant = JSON.parse(response.body)
+
+    expect(merchant["data"]["type"]).to eq("merchant")
+    expect(merchant["data"]["id"]).to eq(merchant1.id.to_s)
+    expect(merchant["data"]["attributes"]["name"]).to eq(merchant2.name)
+
+    expect(Merchant.first.name).to eq(merchant2.name)
   end
 
 end
