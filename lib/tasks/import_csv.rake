@@ -71,10 +71,8 @@ namespace :db do
     print_and_flush("100% \n")
 
     ActiveRecord::Base.connection.tables.each do |t|
-      if t != "schema_migrations" && t != "ar_internal_metadata"
-        puts "Reseting PK on #{t} table"
-        ActiveRecord::Base.connection.reset_pk_sequence!(t)
-      end
+      puts "Reseting PK on #{t} table"
+      ActiveRecord::Base.connection.reset_pk_sequence!(t)
     end
   end
 end
