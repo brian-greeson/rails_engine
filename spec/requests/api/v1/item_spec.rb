@@ -114,5 +114,31 @@ describe 'Items API' do
     expect(Item.all).to be_empty
     expect(item["data"]).to eq(nil)
   end
+
+  it 'Can update an existing record' do
+    merchant1 = create(:merchant)
+    item1 = merchant1.items.create(attributes_for(:item))
+    item2 = build(:item, merchant_id: merchant1.id)
+
+    put "/api/v1/items/#{item1.id}", params: {
+      id: item1.id,
+      name: item2.name,
+      description: item2.description,
+      unit_price: item2.unit_price,
+      merchant_id: item2.merchant_id
+    }
+    expect(response).to be_successful
+    item = JSON.parse(response.body)
+
+    expect(item["data"]["type"]).to eq("item")
+    expect(item["data"]["id"]).to eq(item1.id.to_s)
+    expect(item["data"]["attributes"]["name"]).to eq(item2.name)
+    expect(item["data"]["attributes"]["description"]).to eq(item2.description)
+    expect(item["data"]["attributes"]["unit_price"]).to eq(item2.unit_price.to_f)
+    expect(item["data"]["attributes"]["merchant_id"]).to eq(item2.merchant_id)
+
+    expect(Item.first.name).to eq(item2.name)
+  end
+
   
 end

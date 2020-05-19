@@ -5,7 +5,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
 
   def show
     begin
-      render json: ItemSerializer.new(Item.find(item_params[:id]))
+      render json: ItemSerializer.new(Item.find(params[:id]))
     rescue ActiveRecord::RecordNotFound
       render json: {data: nil}
     end
@@ -19,9 +19,17 @@ class Api::V1::ItemsController < Api::V1::BaseController
     end
   end
 
+  def update
+    begin
+      render json: ItemSerializer.new(Item.update(params[:id], item_params))
+    rescue ActiveRecord::RecordInvalid
+      render json: {data: nil}
+    end
+  end
+
   def destroy
     begin
-      item = Item.find(item_params[:id]).destroy
+      item = Item.find(params[:id]).destroy
     rescue ActiveRecord::RecordNotFound
       render json: {data: nil}
     else
