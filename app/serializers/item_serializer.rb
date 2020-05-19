@@ -4,4 +4,5 @@ class ItemSerializer
   attribute :unit_price do |object|
     object.unit_price.to_f
   end
+  belongs_to :merchant
 end

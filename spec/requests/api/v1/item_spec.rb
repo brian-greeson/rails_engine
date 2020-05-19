@@ -140,5 +140,18 @@ describe 'Items API' do
     expect(Item.first.name).to eq(item2.name)
   end
 
+  it 'Can list item merchant' do
+    merchant1 = create(:merchant)
+    item1 = merchant1.items.create(attributes_for(:item))
+
+    get "/api/v1/items/#{item1.id}/merchant"
+    expect(response).to be_successful
+    merchant = JSON.parse(response.body)
+
+    expect(merchant["data"]["type"]).to eq("merchant")
+    expect(merchant["data"]["id"]).to eq(merchant1.id.to_s)
+    expect(merchant["data"]["attributes"]["name"]).to eq(merchant1.name)
+  end
+
   
 end
