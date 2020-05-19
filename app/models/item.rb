@@ -7,7 +7,8 @@ class Item < ApplicationRecord
   def self.find_match(params)
     result = nil
     params.each do |column, search|
-      break if result = where("#{column} ILIKE ?", "%#{search}%")
+      result = where("#{column} ILIKE ?", "%#{search}%")
+      break if !result.empty?
     end
     result.first
   end
