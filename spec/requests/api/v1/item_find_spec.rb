@@ -43,7 +43,7 @@ describe 'Items Finder API' do
       merchant1 = create(:merchant)
       item1 = merchant1.items.create(attributes_for(:item))
 
-      get "/api/v1/items/find?name=notgonnafindme&description=#{item1.description[3..8].upcase}"
+      get "/api/v1/items/find_all?name=notgonnafindme&description=#{item1.description[3..8].upcase}"
       expect(response).to be_successful
       item = JSON.parse(response.body)
 
