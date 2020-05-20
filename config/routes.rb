@@ -9,7 +9,9 @@ Rails.application.routes.draw do
         get "/merchant", to: "item_merchant#index"
       end
 
-      
+      namespace :merchants do
+        get "/find", to: "search#show"
+      end
       resources :merchants do
         get "/items", to: "merchant_items#index"
       end

@@ -3,7 +3,6 @@ class Item < ApplicationRecord
   has_many :invoice_items, dependent: :destroy
   validates_presence_of :name, :description, :unit_price
 
-
   def self.find_match(params)
     result = nil
     params.each do |column, search|
