@@ -12,6 +12,10 @@ RSpec.describe Merchant, type: :model do
   end
   
   describe 'instance methods' do
-    
+     it 'find_match' do
+      merchant1 = create(:merchant)
+      params = { name: merchant1.name[0..3].upcase }
+      expect(Merchant.find_match(params)).to eq(merchant1)
+    end
   end
 end
