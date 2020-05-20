@@ -1,5 +1,13 @@
 class Api::V1::Items::SearchController < Api::V1::BaseController
 
+  def index
+    begin
+      render json: ItemSerializer.new(Item.find_matches(search_params))
+    rescue ActiveRecord::RecordNotFound
+      render json: {data: nil}
+    end
+  end
+
   def show
     begin
       render json: ItemSerializer.new(Item.find_match(search_params))

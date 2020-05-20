@@ -8,12 +8,11 @@ class Item < ApplicationRecord
   end
 
   def self.find_matches(params)
-    result = nil
+    results = []
     params.each do |column, search|
-      result = where("#{column} ILIKE ?", "%#{search}%")
-      break if !result.empty?
+      results << where("#{column} ILIKE ?", "%#{search}%")
     end
-    result
+    results.flatten.uniq
   end
 end
 
