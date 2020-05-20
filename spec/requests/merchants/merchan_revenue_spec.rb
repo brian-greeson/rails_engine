@@ -46,23 +46,21 @@ describe 'Merchant Revenue API' do
       # merchant2 total revenue = 1.5
       # merchant3 total revenue = 0
       
-
-
       get "/api/v1/merchants/most_revenue?quantity=1"
       expect(response).to be_successful
       merchants = JSON.parse(response.body)
-      
+  
       expect(merchants["data"].count).to eq(1)
       
       expect(merchants["data"][0]["type"]).to eq("merchant")
       expect(merchants["data"][0]["id"]).to eq(merchant1.id.to_s)
       expect(merchants["data"][0]["attributes"]["name"]).to eq(merchant1.name)
       
-      get "/api/v1/merchants/most_revenue?quantity=3"
+      get "/api/v1/merchants/most_revenue?quantity=2"
       expect(response).to be_successful
       merchant = JSON.parse(response.body)
       
-      expect(merchant["data"].count).to eq(3)
+      expect(merchant["data"].count).to eq(2)
 
   
     end
