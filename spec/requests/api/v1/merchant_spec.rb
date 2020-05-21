@@ -107,6 +107,17 @@ describe 'Merchant API' do
     expect(Merchant.first.name).to eq(merchant2.name)
   end
 
+    it 'Can fail to update merchant ' do
+    merchant1 = create(:merchant)
+    merchant2 = build(:merchant)
+
+    put "/api/v1/merchants/garbage", params: {
+      name: merchant2.name
+    }
+    merchant = JSON.parse(response.body)
+    expect(merchant["data"]).to eq(nil)
+  end
+
   it 'Can list merchant items' do
     merchant1 = create(:merchant)
     item1 = merchant1.items.create(attributes_for(:item))
@@ -129,6 +140,15 @@ describe 'Merchant API' do
     items = JSON.parse(response.body)
 
     expect(items["data"].length).to eq(3)
+  end
+
+  it 'Can fail to list merchant items' do
+    merchant1 = create(:merchant)
+    item1 = merchant1.items.create(attributes_for(:item))
+
+    get "/api/v1/merchants/notworking/items"
+    merchant = JSON.parse(response.body)
+    expect(merchant["data"]).to eq(nil)
   end
 
 end
