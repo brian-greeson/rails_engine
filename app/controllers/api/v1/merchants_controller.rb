@@ -22,7 +22,7 @@ class Api::V1::MerchantsController < Api::V1::BaseController
   def update
     begin
       render json: MerchantSerializer.new(Merchant.update(params[:id], merchant_params))
-    rescue ActiveRecord::RecordInvalid
+    rescue 
       render json: {data: nil}
     end
   end

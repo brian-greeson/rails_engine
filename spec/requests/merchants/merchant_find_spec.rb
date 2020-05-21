@@ -30,7 +30,18 @@ describe 'Merchant Finder API' do
       expect(merchant["data"]["id"]).to eq(merchant1.id.to_s)
       expect(merchant["data"]["attributes"]["name"]).to eq(merchant1.name)
     end
+
+    it 'Can fail to find an item by partial name' do
+      merchant1 = create(:merchant)
+
+      get "/api/v1/merchants/find?name=aaaaaaa"
+      expect(response).to be_successful
+      merchant = JSON.parse(response.body)
+
+      expect(merchant["data"]).to eq(nil)
+    end
   end
+
 
   describe 'Multi Results Finder' do
     after(:all) do
