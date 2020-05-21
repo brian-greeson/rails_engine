@@ -24,8 +24,4 @@ class Revenue
   def self.model_name_from(params)
     params[:controller].split("/")[2]
   end
-
-  # def self.model_class_from(name)
-  #   name.singularize.camelize.constantize
-  # end
 end
